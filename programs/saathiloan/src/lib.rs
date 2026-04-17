@@ -7,7 +7,12 @@ pub mod constants;
 
 use instructions::*;
 
-declare_id!("SaathiLoan1111111111111111111111111111111111"); // replace after `anchor keys list`
+use instructions::credit::__client_accounts_upsert_credit_profile;
+use instructions::fund::{__client_accounts_disburse_loan, __client_accounts_fund_loan};
+use instructions::loan::{__client_accounts_cancel_loan_request, __client_accounts_create_loan_request};
+use instructions::repayment::__client_accounts_record_repayment;
+
+declare_id!("5cJSjnL6XchWvGwRqqJM2FQnRRB2Xu62duawATgoit6d"); // replace after `anchor keys list`
 
 #[program]
 pub mod saathiloan {

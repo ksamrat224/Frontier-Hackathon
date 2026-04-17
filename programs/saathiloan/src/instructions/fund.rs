@@ -88,7 +88,7 @@ pub fn fund_loan(ctx: Context<FundLoan>, amount_lamports: u64) -> Result<()> {
 
     let position = &mut ctx.accounts.lender_position;
     position.lender = ctx.accounts.lender.key();
-    position.loan = ctx.accounts.loan_request.key();
+    position.loan = loan.key();
     position.amount_contributed = position.amount_contributed
         .checked_add(amount_lamports)
         .ok_or(SaathiError::MathOverflow)?;
@@ -157,11 +157,7 @@ pub fn disburse_loan(ctx: Context<DisburseLoan>) -> Result<()> {
     loan.status = LoanStatus::Active;
     loan.disbursed_at = clock.unix_timestamp;
 
-    // ── Transfer SOL: vault → borrower (PDA signer) ───────────────────────────
-    let loan_key = ctx.accounts.loan_request.key();
-    let vault_bump = ctx.bumps.vault;
-    let vault_seeds: &[&[u8]] = &[VAULT_SEED, loan_key.as_ref(), &[vault_bump]];
-
+    // ── Transfer SOL: vault → borrower ───────────────────────────────────────
     **ctx.accounts.vault.to_account_info().try_borrow_mut_lamports()? -= principal;
     **ctx.accounts.borrower.to_account_info().try_borrow_mut_lamports()? += principal;
 

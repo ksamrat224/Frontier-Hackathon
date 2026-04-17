@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use crate::state::{LoanRequest, LenderPosition, CreditProfile, LoanStatus};
+use crate::state::{LoanRequest, CreditProfile, LoanStatus};
 use crate::errors::SaathiError;
 use crate::constants::*;
 

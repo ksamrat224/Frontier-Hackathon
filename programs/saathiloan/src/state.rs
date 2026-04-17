@@ -97,7 +97,7 @@ impl LoanRequest {
     pub const LEN: usize = 8 + 32 + 8 + 8 + 8 + 8 + 2 + 2 + 2 + 1 + 8 + 8 + 8 + 8 + 8 + 1;
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Eq, Debug)]
 pub enum LoanStatus {
     /// Accepting lender contributions
     Open,

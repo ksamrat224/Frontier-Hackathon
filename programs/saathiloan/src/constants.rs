@@ -1,7 +1,7 @@
 /// Your backend wallet that is allowed to write credit scores.
 /// Replace this with your actual oracle keypair pubkey after generating it.
 /// In production you'd use a multisig or a more robust oracle mechanism.
-pub const ORACLE_PUBKEY: &str = "OracLe1111111111111111111111111111111111111";
+pub const ORACLE_PUBKEY: &str = "FcrKifd5HL356zXZ8agnsMSyLdFZgox65Jxe4JTC3avr";
 
 /// Minimum credit score required to create a loan request
 pub const MIN_CREDIT_SCORE: u16 = 300;

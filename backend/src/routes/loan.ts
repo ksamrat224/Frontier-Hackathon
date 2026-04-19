@@ -59,7 +59,7 @@ router.get("/lender/:lenderAddress/positions", async (req, res) => {
   }
 });
 
-router.get("/:borrowerAddress/:loanId", async (req, res) => {
+router.get("/:borrowerAddress/:loanId(\\d+)", async (req, res) => {
   try {
     const { borrowerAddress, loanId } = req.params;
     const parsedLoanId = Number(loanId);

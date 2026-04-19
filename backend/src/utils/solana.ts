@@ -19,6 +19,20 @@ export function getOracleKeypair(): Keypair {
   return Keypair.fromSecretKey(Uint8Array.from(bytes));
 }
 
+export function validateSolanaEnv(): void {
+  const missing: string[] = [];
+  if (!process.env.PROGRAM_ID) missing.push("PROGRAM_ID");
+  if (!process.env.ORACLE_KEYPAIR) missing.push("ORACLE_KEYPAIR");
+
+  if (missing.length > 0) {
+    throw new Error(`Missing required env vars: ${missing.join(", ")}`);
+  }
+
+  // Validate values eagerly to fail fast on malformed settings.
+  getProgramId();
+  getOracleKeypair();
+}
+
 // ── Program ID ────────────────────────────────────────────────────────────
 export function getProgramId(): PublicKey {
   const id = process.env.PROGRAM_ID;

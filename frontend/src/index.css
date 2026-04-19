@@ -231,6 +231,24 @@ textarea {
   background: #fcfefe;
 }
 
+.lookup-card {
+  margin-top: 0.75rem;
+}
+
+.fraud-box {
+  margin-top: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.65rem;
+  background: #f8fbfc;
+}
+
+.fraud-box ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+  color: var(--muted);
+}
+
 .card p {
   margin: 0.32rem 0;
   color: var(--muted);

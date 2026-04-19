@@ -1,8 +1,8 @@
 import * as anchor from "@coral-xyz/anchor";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
+import type { Saathiloan } from "../types/saathiloan";
 import {
   getProvider,
-  getProgramId,
   getCreditProfilePda,
   getLoanPda,
   getVaultPda,
@@ -17,12 +17,9 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 function getProgram() {
   const provider = getProvider();
-  const programId = getProgramId();
 
-  // TODO: replace `idl` with your actual generated IDL after `anchor build`
-  // For now we use `any` so the file compiles without the IDL present
-  const idl: any = require("../../idl/saathiloan.json");
-  return new anchor.Program(idl, provider);
+  const idl = require("../../idl/saathiloan.js").IDL as Saathiloan;
+  return new anchor.Program<Saathiloan>(idl, provider);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -49,7 +46,7 @@ export async function writeCreditScore(
       totalEsewaVolumePaisa: new anchor.BN(totalVolumePaisa),
       esewaTxCount: txCount,
     })
-    .accounts({
+    .accountsStrict({
       oracle: oracle.publicKey,
       borrower,
       creditProfile: creditProfilePda,
@@ -59,7 +56,7 @@ export async function writeCreditScore(
     .rpc();
 
   console.log(
-    `✅ Credit score ${creditScore} written on-chain for ${borrowerAddress}`,
+    ` Credit score ${creditScore} written on-chain for ${borrowerAddress}`,
   );
   console.log(`   Transaction: ${tx}`);
   return tx;
@@ -80,7 +77,7 @@ export async function disburseLoan(
 
   const tx = await program.methods
     .disburseLoan()
-    .accounts({
+    .accountsStrict({
       caller: oracle.publicKey,
       borrower,
       loanRequest: loanPda,
@@ -118,7 +115,7 @@ export async function recordRepayment(
 
   const tx = await program.methods
     .recordRepayment(new anchor.BN(amountLamports))
-    .accounts({
+    .accountsStrict({
       oracle: oracle.publicKey,
       borrower,
       loanRequest: loanPda,
@@ -128,7 +125,7 @@ export async function recordRepayment(
     .signers([oracle])
     .rpc();
 
-  console.log(`✅ Repayment of NPR ${amountNPR} recorded for loan ${loanId}`);
+  console.log(` Repayment of NPR ${amountNPR} recorded for loan ${loanId}`);
   console.log(`   Transaction: ${tx}`);
   return tx;
 }

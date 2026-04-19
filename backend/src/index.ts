@@ -21,5 +21,5 @@ app.use("/api/repayment", repaymentRoutes); // repayment recording
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 
 app.listen(PORT, () => {
-  console.log(`🚀 SaathiLoan oracle backend running on port ${PORT}`);
+  console.log(` SaathiLoan oracle backend running on port ${PORT}`);
 });

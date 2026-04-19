@@ -1,5 +1,6 @@
 import express from "express";
-import { recordRepayment } from "../services/solanaOracle";
+import { assessFraudRisk } from "../services/fraudRules";
+import { fetchLoanRequest, recordRepayment } from "../services/solanaOracle";
 
 const router = express.Router();
 
@@ -32,6 +33,26 @@ router.post("/record", async (req, res) => {
       return;
     }
 
+    const loan = await fetchLoanRequest(borrowerAddress, Number(loanId));
+    if (!loan) {
+      res.status(404).json({ error: "Loan not found" });
+      return;
+    }
+
+    const fraud = assessFraudRisk({
+      loan,
+      amountNPR: Number(amountNPR),
+    });
+
+    if (fraud.decision === "block") {
+      res.status(422).json({
+        success: false,
+        message: "Repayment blocked by fraud rules",
+        fraud,
+      });
+      return;
+    }
+
     console.log(
       `💰 Recording repayment of NPR ${amountNPR} for loan ${loanId}`,
     );
@@ -48,10 +69,12 @@ router.post("/record", async (req, res) => {
       message: `Repayment of NPR ${amountNPR} recorded on-chain`,
       onChainTx: txSignature,
       esewaRef,
+      fraud,
     });
-  } catch (err: any) {
-    console.error("❌ Repayment record error:", err.message);
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Failed to record repayment";
+    console.error("❌ Repayment record error:", message);
+    res.status(500).json({ error: message });
   }
 });
 
@@ -61,7 +84,7 @@ router.post("/record", async (req, res) => {
 // Placeholder for future eSewa webhook integration.
 // When eSewa supports webhooks, they'll POST payment confirmations here.
 // ─────────────────────────────────────────────────────────────────────────────
-router.post("/webhook", async (req, res) => {
+router.post("/webhook", (req, res) => {
   try {
     // TODO: verify eSewa webhook signature here
     const payload = req.body;
@@ -75,9 +98,10 @@ router.post("/webhook", async (req, res) => {
     // }
 
     res.json({ received: true });
-  } catch (err: any) {
-    console.error("❌ Webhook error:", err.message);
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Webhook handler failed";
+    console.error("❌ Webhook error:", message);
+    res.status(500).json({ error: message });
   }
 });
 

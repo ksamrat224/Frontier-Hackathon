@@ -20,10 +20,8 @@ body {
   margin: 0;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(circle at 20% 0%, #d3ecec 0%, transparent 35%),
-    radial-gradient(circle at 80% 100%, #e7f4dd 0%, transparent 30%),
-    var(--bg);
+  background: radial-gradient(circle at 20% 0%, #d3ecec 0%, transparent 35%),
+    radial-gradient(circle at 80% 100%, #e7f4dd 0%, transparent 30%), var(--bg);
 }
 
 #root {
@@ -82,6 +80,13 @@ main {
   margin-top: 1rem;
 }
 
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
 .panel {
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -92,6 +97,11 @@ main {
 
 .panel h2 {
   margin: 0 0 1rem;
+}
+
+.section-title {
+  margin: 1.25rem 0 0.75rem;
+  font-size: 1.1rem;
 }
 
 .panel-head {
@@ -110,6 +120,25 @@ main {
   min-height: 40px;
   font: inherit;
   cursor: pointer;
+}
+
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wallet-row {
+  display: grid;
+  gap: 0.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.wallet-status {
+  margin: 0;
+  font-size: 0.94rem;
+  color: var(--muted);
 }
 
 .btn:focus-visible,
@@ -222,24 +251,79 @@ textarea {
 }
 
 .badge-open,
-.badge-pending {
+.badge-pending,
+.badge-unknown,
+.badge-review {
   background: #fff4df;
   color: var(--warning);
 }
 
-.badge-funding,
-.badge-funding,
+.badge-funded,
 .badge-active,
-.badge-approved {
+.badge-approved,
+.badge-repaid {
   background: #e4f6ee;
   color: var(--ok);
 }
 
 .badge-rejected,
 .badge-defaulted,
-.badge-critical {
+.badge-critical,
+.badge-block {
   background: #ffe9ed;
   color: var(--danger);
+}
+
+.feed-panel {
+  position: sticky;
+  top: 1rem;
+}
+
+.feed-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.feed-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.65rem;
+  background: #fff;
+}
+
+.feed-item strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.feed-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.feed-item small {
+  display: inline-block;
+  margin-top: 0.45rem;
+  color: var(--muted);
+}
+
+.feed-item.tone-success {
+  border-color: #b8e7ca;
+  background: #f4fcf7;
+}
+
+.feed-item.tone-warning {
+  border-color: #f1ddb9;
+  background: #fffaf0;
+}
+
+.feed-item.tone-danger {
+  border-color: #f3bdc5;
+  background: #fff5f7;
 }
 
 @media (max-width: 768px) {
@@ -251,5 +335,13 @@ textarea {
   .panel {
     border-radius: 12px;
     padding: 0.85rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feed-panel {
+    position: static;
   }
 }

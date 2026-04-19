@@ -72,7 +72,8 @@ router.post("/record", async (req, res) => {
       fraud,
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to record repayment";
+    const message =
+      err instanceof Error ? err.message : "Failed to record repayment";
     console.error("❌ Repayment record error:", message);
     res.status(500).json({ error: message });
   }
@@ -99,7 +100,8 @@ router.post("/webhook", (req, res) => {
 
     res.json({ received: true });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Webhook handler failed";
+    const message =
+      err instanceof Error ? err.message : "Webhook handler failed";
     console.error("❌ Webhook error:", message);
     res.status(500).json({ error: message });
   }

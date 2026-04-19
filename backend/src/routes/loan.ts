@@ -32,7 +32,8 @@ router.get("/open", async (_, res) => {
     const loans = await fetchOpenLoans();
     res.json({ count: loans.length, loans });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to fetch open loans";
+    const message =
+      err instanceof Error ? err.message : "Failed to fetch open loans";
     res.status(500).json({ error: message });
   }
 });
@@ -43,7 +44,8 @@ router.get("/borrower/:borrowerAddress", async (req, res) => {
     const loans = await fetchBorrowerLoans(borrowerAddress);
     res.json({ count: loans.length, loans });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to fetch borrower loans";
+    const message =
+      err instanceof Error ? err.message : "Failed to fetch borrower loans";
     res.status(500).json({ error: message });
   }
 });
@@ -54,7 +56,8 @@ router.get("/lender/:lenderAddress/positions", async (req, res) => {
     const positions = await fetchLenderPositions(lenderAddress);
     res.json({ count: positions.length, positions });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to fetch lender positions";
+    const message =
+      err instanceof Error ? err.message : "Failed to fetch lender positions";
     res.status(500).json({ error: message });
   }
 });
@@ -78,7 +81,8 @@ router.get("/:borrowerAddress/:loanId(\\d+)", async (req, res) => {
     const review = reviewStore.get(reviewKey(borrowerAddress, parsedLoanId));
     res.json({ loan, review: review ?? null });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to fetch loan details";
+    const message =
+      err instanceof Error ? err.message : "Failed to fetch loan details";
     res.status(500).json({ error: message });
   }
 });
@@ -103,7 +107,10 @@ router.post("/disburse", async (req, res) => {
       return;
     }
 
-    const existingLoan = await fetchLoanRequest(borrowerAddress, Number(loanId));
+    const existingLoan = await fetchLoanRequest(
+      borrowerAddress,
+      Number(loanId),
+    );
     if (!existingLoan) {
       res.status(404).json({ error: "Loan not found" });
       return;
@@ -153,12 +160,16 @@ router.post("/admin/review", async (req, res) => {
     };
 
     if (!borrowerAddress || loanId === undefined || !status) {
-      res.status(400).json({ error: "borrowerAddress, loanId, and status are required" });
+      res
+        .status(400)
+        .json({ error: "borrowerAddress, loanId, and status are required" });
       return;
     }
 
     if (!["pending", "approved", "rejected"].includes(status)) {
-      res.status(400).json({ error: "status must be pending, approved, or rejected" });
+      res
+        .status(400)
+        .json({ error: "status must be pending, approved, or rejected" });
       return;
     }
 
@@ -184,7 +195,8 @@ router.post("/admin/review", async (req, res) => {
       review,
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to update review";
+    const message =
+      err instanceof Error ? err.message : "Failed to update review";
     res.status(500).json({ error: message });
   }
 });

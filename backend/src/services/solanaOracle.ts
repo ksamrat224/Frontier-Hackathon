@@ -268,7 +268,10 @@ export async function fetchAllLoans(): Promise<LoanSnapshot[]> {
   const program = getProgram();
   const loans = await program.account.loanRequest.all();
   return loans.map((entry) =>
-    loanToSnapshot(entry.account as unknown as Record<string, unknown>, entry.publicKey),
+    loanToSnapshot(
+      entry.account as unknown as Record<string, unknown>,
+      entry.publicKey,
+    ),
   );
 }
 

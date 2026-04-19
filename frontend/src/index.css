@@ -1,0 +1,255 @@
+:root {
+  --bg: #f4f7f8;
+  --surface: #ffffff;
+  --text: #122229;
+  --muted: #4b6671;
+  --border: #d6e1e6;
+  --accent: #0a7a79;
+  --accent-strong: #045c5b;
+  --warning: #ad4f08;
+  --danger: #a11d2f;
+  --ok: #156032;
+  --shadow: 0 10px 28px rgba(18, 34, 41, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 0%, #d3ecec 0%, transparent 35%),
+    radial-gradient(circle at 80% 100%, #e7f4dd 0%, transparent 30%),
+    var(--bg);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  width: min(1200px, 100% - 2rem);
+  margin: 1rem auto 2rem;
+}
+
+.topbar {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+}
+
+.topbar p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav a.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+main {
+  margin-top: 1rem;
+}
+
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.panel h2 {
+  margin: 0 0 1rem;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  padding: 0.55rem 0.85rem;
+  min-height: 40px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.nav a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-strong);
+}
+
+.form-row,
+.form-grid {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.form-grid {
+  grid-template-columns: 1fr;
+}
+
+label {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  padding: 0.58rem 0.7rem;
+  font: inherit;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.state {
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  border: 1px dashed var(--border);
+}
+
+.state.error {
+  border-color: #efb6c0;
+  color: var(--danger);
+  background: #fff4f6;
+}
+
+.state.empty {
+  color: var(--muted);
+}
+
+.result {
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.loans,
+.positions,
+.reviews {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.8rem;
+  background: #fcfefe;
+}
+
+.card p {
+  margin: 0.32rem 0;
+  color: var(--muted);
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.badge {
+  font-size: 0.8rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  text-transform: capitalize;
+}
+
+.badge-open,
+.badge-pending {
+  background: #fff4df;
+  color: var(--warning);
+}
+
+.badge-funding,
+.badge-funding,
+.badge-active,
+.badge-approved {
+  background: #e4f6ee;
+  color: var(--ok);
+}
+
+.badge-rejected,
+.badge-defaulted,
+.badge-critical {
+  background: #ffe9ed;
+  color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    width: calc(100% - 1rem);
+  }
+
+  .topbar,
+  .panel {
+    border-radius: 12px;
+    padding: 0.85rem;
+  }
+}

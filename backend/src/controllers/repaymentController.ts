@@ -12,7 +12,11 @@ export const recordRepaymentController: RequestHandler = async (req, res) => {
       esewaRef?: unknown;
     };
 
-    if (!hasText(borrowerAddress) || loanId === undefined || amountNPR === undefined) {
+    if (
+      !hasText(borrowerAddress) ||
+      loanId === undefined ||
+      amountNPR === undefined
+    ) {
       res.status(400).json({
         error: "borrowerAddress, loanId, and amountNPR are required",
       });
@@ -23,7 +27,9 @@ export const recordRepaymentController: RequestHandler = async (req, res) => {
     const parsedAmountNPR = parseRequiredNumber(amountNPR);
 
     if (parsedLoanId === null || parsedAmountNPR === null) {
-      res.status(400).json({ error: "loanId and amountNPR must be valid numbers" });
+      res
+        .status(400)
+        .json({ error: "loanId and amountNPR must be valid numbers" });
       return;
     }
 

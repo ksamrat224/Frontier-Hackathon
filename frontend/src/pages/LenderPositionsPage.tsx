@@ -96,7 +96,8 @@ export function LenderPositionsPage({
       </form>
       {positions.length > 0 ? (
         <p className="result">
-          Contributed: {totals.contributed} SOL | Received: {totals.received} SOL
+          Contributed: {totals.contributed} SOL | Received: {totals.received}{" "}
+          SOL
         </p>
       ) : null}
       {loading ? <LoadingBlock label="lender positions" /> : null}
@@ -109,11 +110,15 @@ export function LenderPositionsPage({
           <article className="card" key={position.pda}>
             <p>Loan: {shortAddress(position.loan)}</p>
             <p>
-              Contributed: {lamportsToSol(position.amountContributedLamports)} SOL
+              Contributed: {lamportsToSol(position.amountContributedLamports)}{" "}
+              SOL
             </p>
-            <p>Received: {lamportsToSol(position.amountReceivedLamports)} SOL</p>
             <p>
-              Funded At: {new Date(position.fundedAtUnix * 1000).toLocaleString()}
+              Received: {lamportsToSol(position.amountReceivedLamports)} SOL
+            </p>
+            <p>
+              Funded At:{" "}
+              {new Date(position.fundedAtUnix * 1000).toLocaleString()}
             </p>
           </article>
         ))}

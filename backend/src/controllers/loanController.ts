@@ -75,7 +75,9 @@ export const disburseLoanController: RequestHandler = async (req, res) => {
     };
 
     if (!hasText(borrowerAddress) || loanId === undefined) {
-      res.status(400).json({ error: "borrowerAddress and loanId are required" });
+      res
+        .status(400)
+        .json({ error: "borrowerAddress and loanId are required" });
       return;
     }
 
@@ -129,7 +131,11 @@ export const upsertAdminReview: RequestHandler = async (req, res) => {
       notes?: unknown;
     };
 
-    if (!hasText(borrowerAddress) || loanId === undefined || !isReviewStatus(status)) {
+    if (
+      !hasText(borrowerAddress) ||
+      loanId === undefined ||
+      !isReviewStatus(status)
+    ) {
       res
         .status(400)
         .json({ error: "borrowerAddress, loanId, and status are required" });

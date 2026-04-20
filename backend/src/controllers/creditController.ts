@@ -4,7 +4,10 @@ import { computeCreditScore, parseEsewaPdf } from "../services/esewaParser";
 import { fetchCreditProfile, writeCreditScore } from "../services/solanaOracle";
 import { hasText, toErrorMessage } from "../utils/request";
 
-export const uploadCreditProfileController: RequestHandler = async (req, res) => {
+export const uploadCreditProfileController: RequestHandler = async (
+  req,
+  res,
+) => {
   const filePath = req.file?.path;
 
   try {
@@ -72,7 +75,9 @@ export const getCreditProfileController: RequestHandler = async (req, res) => {
     const profile = await fetchCreditProfile(borrowerAddress);
 
     if (!profile) {
-      res.status(404).json({ error: "No credit profile found for this address" });
+      res
+        .status(404)
+        .json({ error: "No credit profile found for this address" });
       return;
     }
 
@@ -81,7 +86,9 @@ export const getCreditProfileController: RequestHandler = async (req, res) => {
       esewaTxCount: profile.esewaTxCount,
       loansRepaidOnTime: profile.loansRepaidOnTime,
       loansDefaulted: profile.loansDefaulted,
-      lastUpdated: new Date(profile.lastUpdated.toNumber() * 1000).toISOString(),
+      lastUpdated: new Date(
+        profile.lastUpdated.toNumber() * 1000,
+      ).toISOString(),
     });
   } catch (err: unknown) {
     const message = toErrorMessage(err, "Failed to fetch credit profile");

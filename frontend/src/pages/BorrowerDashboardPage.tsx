@@ -100,7 +100,11 @@ export function BorrowerDashboardPage({
     } catch (err) {
       const message = err instanceof Error ? err.message : "Lookup failed";
       setLookupError(message);
-      onEvent({ title: "Loan lookup failed", details: message, tone: "danger" });
+      onEvent({
+        title: "Loan lookup failed",
+        details: message,
+        tone: "danger",
+      });
     } finally {
       setLookupLoading(false);
     }
@@ -284,7 +288,10 @@ export function BorrowerDashboardPage({
           type="number"
           value={lookupForm.loanId}
           onChange={(event) =>
-            setLookupForm((current) => ({ ...current, loanId: event.target.value }))
+            setLookupForm((current) => ({
+              ...current,
+              loanId: event.target.value,
+            }))
           }
           placeholder="Loan ID"
         />
@@ -319,10 +326,16 @@ export function BorrowerDashboardPage({
             <StatusBadge status={lookupLoan.loan.status} />
           </div>
           <p>Borrower: {shortAddress(lookupLoan.loan.borrower)}</p>
-          <p>Requested: {lamportsToSol(lookupLoan.loan.amountRequestedLamports)} SOL</p>
-          <p>Total Due: {lamportsToSol(lookupLoan.loan.totalDueLamports)} SOL</p>
           <p>
-            Review Status: {lookupLoan.review ? lookupLoan.review.status : "no review record"}
+            Requested: {lamportsToSol(lookupLoan.loan.amountRequestedLamports)}{" "}
+            SOL
+          </p>
+          <p>
+            Total Due: {lamportsToSol(lookupLoan.loan.totalDueLamports)} SOL
+          </p>
+          <p>
+            Review Status:{" "}
+            {lookupLoan.review ? lookupLoan.review.status : "no review record"}
           </p>
 
           {(() => {
@@ -331,10 +344,13 @@ export function BorrowerDashboardPage({
               <div className="fraud-box">
                 <div className="card-row">
                   <strong>Fraud Summary</strong>
-                  <span className={`badge badge-${fraud.severity}`}>{fraud.severity}</span>
+                  <span className={`badge badge-${fraud.severity}`}>
+                    {fraud.severity}
+                  </span>
                 </div>
                 <p>
-                  Score: {fraud.score} | Decision: <strong>{fraud.decision}</strong>
+                  Score: {fraud.score} | Decision:{" "}
+                  <strong>{fraud.decision}</strong>
                 </p>
                 <ul>
                   {fraud.reasons.map((reason) => (

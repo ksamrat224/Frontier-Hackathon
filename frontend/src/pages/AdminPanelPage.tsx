@@ -29,7 +29,9 @@ export function AdminPanelPage({
     try {
       setLoading(true);
       setError(null);
-      const data = await fetchJson<{ reviews: Review[] }>("/loan/admin/reviews");
+      const data = await fetchJson<{ reviews: Review[] }>(
+        "/loan/admin/reviews",
+      );
       setReviews(data.reviews);
     } catch (err) {
       setError(
@@ -68,8 +70,8 @@ export function AdminPanelPage({
           form.status === "approved"
             ? "success"
             : form.status === "rejected"
-              ? "danger"
-              : "warning",
+            ? "danger"
+            : "warning",
       });
       await load();
     } catch (err) {
@@ -134,7 +136,10 @@ export function AdminPanelPage({
       ) : null}
       <div className="grid reviews">
         {reviews.map((review) => (
-          <article className="card" key={`${review.borrowerAddress}:${review.loanId}`}>
+          <article
+            className="card"
+            key={`${review.borrowerAddress}:${review.loanId}`}
+          >
             <div className="card-row">
               <strong>Loan #{review.loanId}</strong>
               <span className={`badge badge-${review.status}`}>

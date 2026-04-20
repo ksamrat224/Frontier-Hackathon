@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import creditRoutes from "./routes/credit";
-import loanRoutes from "./routes/loan";
-import repaymentRoutes from "./routes/repayment";
+import apiRoutes from "./routes";
 import { validateSolanaEnv } from "./utils/solana";
+import { toErrorMessage } from "./utils/request";
 
 dotenv.config();
 
@@ -14,8 +13,7 @@ const PORT = process.env.PORT || 3001;
 try {
   validateSolanaEnv();
 } catch (err: unknown) {
-  const message =
-    err instanceof Error ? err.message : "Failed to validate Solana env";
+  const message = toErrorMessage(err, "Failed to validate Solana env");
   console.error(`❌ Startup validation failed: ${message}`);
   process.exit(1);
 }
@@ -23,10 +21,7 @@ try {
 app.use(cors());
 app.use(express.json());
 
-// ── Routes ────────────────────────────────────────────────────────────────────
-app.use("/api/credit", creditRoutes); // eSewa upload + credit score
-app.use("/api/loan", loanRoutes); // loan disbursal
-app.use("/api/repayment", repaymentRoutes); // repayment recording
+app.use("/api", apiRoutes);
 
 app.get("/health", (_, res) => res.json({ status: "ok" }));
 
